@@ -21,7 +21,7 @@ export default gql`
     token: String!
   }
 
-  type Mutation {
+  type Mutation{
     login(emailDto: String!, passwordDto: String!): AuthPayload,
     create(user: CreateUserInput!): User
   }
