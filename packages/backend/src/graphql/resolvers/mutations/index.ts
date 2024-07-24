@@ -10,4 +10,5 @@ export default {
     info: GraphQLResolveInfo
   ) => mutationTest(parent, args, context, info),
   login: UserUseCases.login,
+  create: UserUseCases.create
 }
