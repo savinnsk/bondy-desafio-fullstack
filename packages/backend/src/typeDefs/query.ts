@@ -4,4 +4,7 @@ export default gql`
   type Query {
     queryTest: Boolean
   }
+
+  
+
 `
