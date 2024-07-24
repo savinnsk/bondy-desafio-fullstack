@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import { UserRepository } from "../repository/user"
-
+import jwt from "jsonwebtoken"
 
 
 export const UserUseCases = {
@@ -17,8 +17,8 @@ export const UserUseCases = {
       if (!passwordMatch) {
         return new Error('Senha ou Email incorretos');
       }
-
-      const token = "12345"
+      
+      const token = jwt.sign({ userId: _id }, 'secret-key', { expiresIn: '24h' });
 
       return {
         user: {
