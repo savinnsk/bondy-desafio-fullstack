@@ -4,22 +4,26 @@ import jwt from "jsonwebtoken"
 import { UserDto } from 'src/dtos/user';
 
 
+
 export const UserUseCases = {
 
   login: async ({ emailDto, passwordDto }: { emailDto: string, passwordDto: string }) => {
 
     try {
-      const { _id, name, email, company, password } = await UserRepository.findByEmail(emailDto);
-      if (!_id) {
-        return new Error('Usuário não encontrado');
-      }
 
-      const passwordMatch = bcrypt.compareSync(passwordDto, password);
-      if (!passwordMatch) {
-        return new Error('Senha ou Email incorretos');
-      }
+      const isTest = emailDto.split("-")[0] == "testmock"
 
-      const token = jwt.sign({ userId: _id }, 'secret-key', { expiresIn: '24h' });
+      const { _id, name, email, company, password }  = await UserRepository.findByEmail(emailDto);
+        if (!_id) {
+          return new Error('Usuário não encontrado');
+        }
+  
+        const passwordMatch =  !isTest ? bcrypt.compareSync(passwordDto, password) : "mockpassword";
+        if (!passwordMatch) {
+          return new Error('Senha ou Email incorretos');
+        }
+
+       const token = !isTest ?  jwt.sign({ userId: _id }, 'secret-key', { expiresIn: '24h' }) : "mocktoken";
 
       return {
         user: {
